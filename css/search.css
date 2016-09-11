@@ -1,0 +1,80 @@
+#top{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items:center;
+  text-align: center;
+}
+
+#top h4{
+  margin: 0.5em 2em;
+  margin-right: 10em;
+  padding: 0.5em 2em;
+  font-size: 20px;
+  font-family: 'Montez', cursive;
+  text-decoration: none;
+}
+
+#top a{
+  text-decoration: none;
+  color: black;
+}
+
+#top a:hover{
+  color: orange;
+}
+
+
+#top input{
+  margin-left: 5em;
+  margin-right: 0.5em;
+  width: 25em;
+}
+
+#top button{
+  width: 7em;
+}
+
+body{
+  margin: auto;
+}
+
+#results{
+    list-style: none;
+}
+
+.list-item{
+  width: 100%;
+  padding: 0.5em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;;
+  align-items: center;
+  border-top: solid black 1px;
+  margin-right: 2em;
+}
+
+.place-photo{
+  height: 300px;
+  width: 30%;
+  border: solid black 1px;
+  margin:3em;
+}
+
+h2,h4{
+  text-decoration: underline;
+  margin-bottom: 0;
+}
+
+.place-info{
+  width: 60%;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: auto;
+}

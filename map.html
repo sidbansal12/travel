@@ -1,0 +1,62 @@
+<!DOCTYPE>
+<html ng-app="travel" ng-cloak>
+  <head>
+    <title>Travel</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Montez|Josefin+Slab' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/selectize.css">
+    <link rel="stylesheet" type="text/css" href="css/profile.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body ng-controller="mapCtrl">
+    <div class="cover-pic">
+      <img src="img/ksh2.jpg">
+    </div>
+    <div class="profile-pic">
+      <img src="img/ksh1.jpg">
+    </div>
+    <div>
+      <ul class="navbar">
+        <li><a href="http://localhost:3000/profile.html">Home</a></li>
+        <li><a class="photo-link">My Photos</a></li>
+        <li><a class="map-link">My Map</a></li>
+        <li><a class="search-link">Search Users</a></li>
+        <!--input class="form-control search" id="name" placeholder="Search Places & People..."> type="text" ng-model="query" ng-change="toggleGuess()"-->
+        <!--ul id="auto" ng-repeat="fruit in fruits | filter:query">
+          <li>{{fruit}}</li>
+        </ul-->
+          <div class="control-group search">
+  					<select id="select-user" placeholder="Search" ng-model="selected">
+              <option value="">Search User List...</option>
+              <option ng-repeat="u in users" ng-value="u.username">{{u.first_name}}</option>
+  					</select>
+  				</div>
+        <button type="button" class="btn btn-default search-btn" aria-label="Left Align" ng-disabled="isDisabled" ng-click="goToProfile()">
+          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        </button>
+      </ul>
+    </div>
+    <div class="total-container">
+      <div class="map-container" ng-repeat="i in user">
+        <div id="googleMap"></div>
+      </div>
+      <div class="map-places" ng-repeat="u in user">
+        <h3>{{u.first_name}}'s Travel Map</h3>
+        <label style="text-align: left; margin-top: 20px;">Enter a new place to mark on the map:</label>
+        <input type="text" name="search" class="over-image-text" id="autoComplete" ng-model="update.new_place">
+        <button ng-click="getPlaces()" type="button">Mark place</button>
+        <ul class="place-list">
+          <li style="text-decoration: underline; margin-bottom: 20px; list-style: none;">Places you've visited</li>
+          <li ng-repeat="x in u.visited_places">{{x}}</li>
+        </ul>
+      </div>
+    </div>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyA00aY5kUnsVOfTDxQj6-hq1rP17rkQO4Q&libraries=places"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.2/js/standalone/selectize.min.js"></script>
+    <script src="controllers/app.js"></script>
+    <script type="text/javascript" src="js/map.js"></script>
+  </body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html ng-app="travel" ng-cloak>
+  <head>
+    <title>Travel</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Montez|Josefin+Slab' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/selectize.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body ng-controller="MainCtrl">
+    <div class="heading">
+      <h2 class="heading">TripOnNature</h2>
+    </div>
+    <div class="sign-up-form-inside" ng-hide="makeVisible()">
+      <h1>Sign Up<small><a class="link" ng-click="refreshUsername()">Registered User? Login!</a></small></h1>
+      <div ng-show="isMissError()">
+        <p style="color: red">This Username or Email Id already exists. Try a different one.</p>
+      </div>
+      <div ng-show="isPasswordError()">
+        <p style="color: red">Passwords don't match</p>
+      </div>
+      <form id="addUser">
+        <fieldset class="form-group">
+          <label for="first_name">First Name*</label>
+          <input class="form-control" id="first_name" placeholder="Enter First Name" ng-model="contact.first_name" pattern="^[a-zA-Z ]+$" required>
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="last_name">Last Name*</label>
+          <input class="form-control" id="last_name" placeholder="Enter Last Name" ng-model="contact.last_name" pattern="^[a-zA-Z ]+$" required>
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="phone">Phone Number*</label>
+          <input class="form-control" id="phone" placeholder="Enter Phone Number" ng-model="contact.phone" pattern="^[0-9]*$" required>
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="street">Street</label>
+          <input type="text" class="form-control" id="street" ng-model="contact.street">
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="city">City*</label>
+          <input type="text" class="form-control" id="city" ng-model="contact.city" pattern="^[a-zA-Z ]+$" required>
+        </fieldset>
+        <div class="control-group">
+					<label for="select-beast">State:</label>
+					<select id="select-state" placeholder="Pick a state...">
+						<option value="">Select a state...</option>
+						<option value="AL">Alabama</option>
+						<option value="AK">Alaska</option>
+						<option value="AZ">Arizona</option>
+						<option value="AR">Arkansas</option>
+						<option value="CA">California</option>
+						<option value="CO">Colorado</option>
+						<option value="CT">Connecticut</option>
+						<option value="DE">Delaware</option>
+						<option value="DC">District of Columbia</option>
+						<option value="FL">Florida</option>
+						<option value="GA">Georgia</option>
+						<option value="HI">Hawaii</option>
+						<option value="ID">Idaho</option>
+						<option value="IL">Illinois</option>
+						<option value="IN">Indiana</option>
+						<option value="IA">Iowa</option>
+						<option value="KS">Kansas</option>
+						<option value="KY">Kentucky</option>
+						<option value="LA">Louisiana</option>
+						<option value="ME">Maine</option>
+						<option value="MD">Maryland</option>
+						<option value="MA">Massachusetts</option>
+						<option value="MI">Michigan</option>
+						<option value="MN">Minnesota</option>
+						<option value="MS">Mississippi</option>
+						<option value="MO">Missouri</option>
+						<option value="MT">Montana</option>
+						<option value="NE">Nebraska</option>
+						<option value="NV">Nevada</option>
+						<option value="NH">New Hampshire</option>
+						<option value="NJ">New Jersey</option>
+						<option value="NM">New Mexico</option>
+						<option value="NY">New York</option>
+						<option value="NC">North Carolina</option>
+						<option value="ND">North Dakota</option>
+						<option value="OH">Ohio</option>
+						<option value="OK">Oklahoma</option>
+						<option value="OR">Oregon</option>
+						<option value="PA">Pennsylvania</option>
+						<option value="RI">Rhode Island</option>
+						<option value="SC">South Carolina</option>
+						<option value="SD">South Dakota</option>
+						<option value="TN">Tennessee</option>
+						<option value="TX">Texas</option>
+						<option value="UT">Utah</option>
+						<option value="VT">Vermont</option>
+						<option value="VA">Virginia</option>
+						<option value="WA">Washington</option>
+						<option value="WV">West Virginia</option>
+						<option value="WI">Wisconsin</option>
+						<option value="WY">Wyoming</option>
+					</select>
+				</div>
+        <fieldset class="form-group">
+          <label for="country">Country</label>
+          <input type="text" class="form-control" id="country" ng-model="contact.country">
+        </fieldset>
+        <div class="control-group">
+					<label for="select-state-disabled">Places you've been to*</label>
+					<select id="select-state-disabled" name="state[]" multiple placeholder="Select a state..." ng-model="contact.visited_places">
+						<option value="">Select a state...</option>
+						<option>Grand Canyon, Arizona</option>
+						<option>Mendenhall Glacier Caves, Alaska</option>
+						<option>Oneonta Gorge, Oregon</option>
+            <option>Skagit Valley Tulip Fields, Washington</option>
+            <option>Maroon Bells-Snowmass Wilderness, Colorado</option>
+            <option>Dry Tortugas National Park, Florida</option>
+            <option>Antelope Canyon, Arizona</option>
+            <option>Zion National Park, Utah</option>
+            <option>Watkins Glen State Park, New York</option>
+            <option>Yosemite Valley, California</option>
+            <option>Grand Prismatic Spring, Wyoming</option>
+            <option>Haiku Stairs of Oahu, Hawaii</option>
+            <option>Carlsbad Caverns, New Mexico</option>
+            <option>Whitaker Point, Arkansas</option>
+            <option>Hamilton Pool, Texas</option>
+            <option>Horseshoe Bend, Arizona</option>
+            <option>Northern Lights, Alaska</option>
+            <option>Bryce Canyon, Utah</option>
+            <option>Lake Tahoe, Nevada</option>
+            <option>Smoky Mountains, North Carolina/Tennessee</option>
+            <option>Niagara Falls, New York</option>
+            <option>The Wave, Arizona</option>
+            <option>Sequoia National Park, California</option>
+            <option>Thor’s Well, Oregon</option>
+            <option>Badlands National Park, South Dakota</option>
+            <option>Savannah, Georgia</option>
+            <option>Palouse Falls, Washington</option>
+            <option>Glacier National Park, Montana</option>
+            <option>Nā Pali Coast State Park, Hawaii</option>
+            <option>Devils Tower, Wyoming</option>
+            <option>Rann of Kutch, Gujarat</option>
+            <option>Dudhsagar Falls, Goa</option>
+            <option>Living Root Bridges, Meghalaya</option>
+            <option>Markha Valley,  Ladakh</option>
+            <option>Valley of Flowers, Uttarakhand</option>
+            <option>Pangong Lake, Ladakh</option>
+            <option>Rosary Church, Shettihalli</option>
+            <option>Laitlum Canyons, Meghalaya</option>
+            <option>Mawlynnong Village, Meghalaya</option>
+            <option>Phuktal Monastery, Zankar Valley</option>
+            <option>Andaman and Nicobar Islands</option>
+            <option>Varanasi</option>
+            <option>Sandakphu</option>
+            <option>Nubra Valley,  Ladakh</option>
+            <option>Alleppey, Kerala</option>
+            <option>Thar Desert, Rajasthan</option>
+            <option>Chittorgarh, Rajasthan</option>
+            <option>Loktak Lake,  Manipur</option>
+            <option>Anthargange Caves, Kolar</option>
+            <option>Gurez Valley,  Himalayas</option>
+            <option>Roopkund Lake, Uttarakhand</option>
+            <option>Chand Baori, Rajasthan</option>
+            <option>Bhimtal Lake, Nainital</option>
+					</select>
+          <small>Can not find anywhere you've been to? No worries! Only means you'll need to explore nature more!</small>
+				</div>
+        <fieldset class="form-group">
+          <label for="emailId">Email Address*</label>
+          <input class="form-control" id="emailId" type="email" placeholder="Enter Email Address" ng-model="contact.email_id" pattern="^[A-Za-z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]{2,4}$" required>
+          <small>We will not share your Email with anyone.</small>
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="username">Username*</label>
+          <input class="form-control" id="username" placeholder="Enter Username" ng-model="contact.username" required>
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="Password">Password*</label>
+          <input type="password" class="form-control" id="Password" placeholder="Password" ng-model="contact.password" pattern="^[A-Za-z0-9]+$" required>
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="ConfirmPassword">Confirm Password*</label>
+          <input type="password" class="form-control" id="ConfirmPassword" placeholder="Confirm Password" ng-model="confirm_password" pattern="^[A-Za-z0-9]+$" required>
+        </fieldset>
+        <button type="submit" class="btn btn-primary" id="btnAddUser" ng-click="signup()">Sign up</button>
+      </form>
+    </div>
+    <div class="login-form1" ng-show="makeVisible()">
+      <h1>Login<small><a class="link1">New User? Sign Up!</a></small></h1>
+      <fieldset class="form-group">
+        <label for="emailId">Username</label>
+        <input class="form-control" id="emailId" placeholder="Enter Username" ng-model="username" type="text" />
+        <input type="text" id="autoComplete">
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="Password">Password</label>
+        <input type="password" class="form-control" id="Password" placeholder="Password" ng-model="password">
+        <small><a class="forgot">Forgot Password?</a></small>
+      </fieldset>
+      <!--input type="hidden" class="form-control online-input" ng-model="update.online"></input-->
+      <button type="submit" class="btn btn-primary login-btn" ng-click="login()">Login</button>
+    </div>
+    <div class="login-form">
+      <h1>Login<small><a class="link1">New User? Sign Up!</a></small></h1>
+      <fieldset class="form-group">
+        <label for="emailId">Username</label>
+        <input class="form-control" id="emailId" placeholder="Enter Username" ng-model="username" type="text" />
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="Password">Password</label>
+        <input type="password" class="form-control" id="Password" placeholder="Password" ng-model="password">
+        <small><a class="forgot">Forgot Password?</a></small>
+      </fieldset>
+      <!--input type="hidden" class="form-control online-input" ng-model="update.online"></input-->
+      <button type="submit" class="btn btn-primary login-btn" ng-click="login()">Login</button>
+    </div>
+    <div class="forgotten-password">
+      <h1>Reset Password<small><a class="link2">Back to Login</a></small></h1>
+      <fieldset class="form-group">
+        <label for="emailId1">Email Address</label>
+        <input class="form-control" id="emailId1" type="email" placeholder="Enter Email Address">
+      </fieldset>
+      <button type="submit" class="btn btn-primary">Reset Password</button>
+    </div>
+    <div class="footer">
+      <div>
+        <p>Find us on:</p>
+        <ul>
+          <li><a href="http://www.facebook.com/siddhantbansal">Facebook</li>
+          <li><a href="https://www.linkedin.com/in/siddhant-bansal-4a6618b1">LinkedIn</a></li>
+        </ul>
+      </div>
+      <div>
+        <p>Know More about the creator at:</p>
+        <p><a href="http://www.bansalsiddhant.com">www.bansalsiddhant.com</a>
+      </div>
+    </div>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyA00aY5kUnsVOfTDxQj6-hq1rP17rkQO4Q"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.2/js/standalone/selectize.min.js"></script>
+    <script src="http://code.angularjs.org/1.2.1/angular.js"></script>
+    <script src="controllers/app.js"></script>
+    <script src="js/signup.js"></script>
+  </body>
+</html>

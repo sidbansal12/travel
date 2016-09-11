@@ -1,0 +1,145 @@
+<!DOCTYPE>
+<html ng-app="travel" ng-cloak>
+  <head>
+    <title>Travel</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Montez|Josefin+Slab' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/selectize.css">
+    <link rel="stylesheet" type="text/css" href="css/profile.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body ng-controller="profileCtrl">
+    <div class="cover-pic">
+      <img src="img/ksh2.jpg">
+    </div>
+    <div class="profile-pic">
+      <img src="img/ksh1.jpg">
+    </div>
+    <div>
+      <ul class="navbar">
+        <li><a href="http://localhost:3000/profile.html">Home</a></li>
+        <li><a class="photo-link">My Photos</a></li>
+        <li><a class="map-link" href="http://localhost:3000/map.html">My Map</a></li>
+        <li><a class="search-link">Search Users</a></li>
+        <!--input class="form-control search" id="name" placeholder="Search Places & People..."> type="text" ng-model="query" ng-change="toggleGuess()"-->
+        <!--ul id="auto" ng-repeat="fruit in fruits | filter:query">
+          <li>{{fruit}}</li>
+        </ul-->
+          <div class="control-group search">
+  					<select id="select-user" placeholder="Search" ng-model="selected">
+              <option value="">Search User List...</option>
+              <option ng-repeat="u in users" ng-value="u.username">{{u.first_name}}</option>
+  					</select>
+  				</div>
+        <button type="button" class="btn btn-default search-btn" aria-label="Left Align" ng-disabled="isDisabled" ng-click="goToProfile()">
+          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        </button>
+      </ul>
+    </div>
+    <div class="container">
+      <div class="places" ng-repeat="u in user">
+        <h3>Places you have visited!</h3>
+        <ul>
+          <li ng-repeat="x in u.visited_places">{{x}}</li>
+        </ul>
+      </div>
+      <div class="center-container" ng-repeat="i in user">
+        <h1>Welcome, {{i.first_name}}</h1>
+        <div class="main-container">
+          <div class="travel">
+            <!--input type="text" name="search" class="form-control" id="autoComplete" placeholder="Where are you travelling to?"-->
+              <input type="text" name="search" class="form-control over-image-text" placeholder="Where are you travelling?" id="autoComplete" ng-model="update.new_place">
+              <button type="button "class="btn btn-default post-button" ng-click="post_update()">Post</button>
+              <button type="button "class="btn btn-default post-button" ng-click="">Upload Image</button>
+          </div>
+          <div class="pics">
+            <ul class="new"></ul>
+            <ul class="post-list" ng-repeat="post in posts | orderBy:'-time'">
+              <li ng-model="post">
+                <div class="timeline-post" ng-show="!ifImage()">
+                  <p style="text-align: left">{{post.post_by}} is travelling to {{post.place}}</p>
+                </div>
+                <img class="timeline-pic" src="img/ksh1.jpg" ng-show="ifImage()">
+                <div class="like-comment">
+                  <div class="response" ng-repeat="like in post.likes | filter: {username : i.username}">
+                    <button type="button" class="btn btn-info Like" ng-click="like_update(post._id, post, like.status, $index); like.status">{{like.status}}<span ng-if="like.cancelling">d</span></button>
+                    <label style="width: 10em;" for="like">{{post.no_likes}} people like this</label>
+                    <!--button type="button" class="btn btn-primary" style="margin-left: 5em;">Add to Wishlist</button-->
+                  </div>
+                  <div class="comment">
+                    <input class="form-control comment-box" id="comment-box" placeholder="Write a comment...">
+                  </div>
+                  <label>Posted on {{post.created_at}} at {{post.time}}</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="want-to">
+        <h3>ONLINE USERS</h3>
+        <!--ul style="list-style: none" ng-repeat="u in onlineusers" class="user-list">
+          <li>{{u.first_name}}</li>
+        </ul-->
+        <ul style="list-style: none" class="user-list" id="onlineuser-list">
+        </ul>
+        <button type="button" ng-click="logout()">Logout</button>
+      </div>
+    </div>
+    <script src="js/jquery-3.0.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.2/js/standalone/selectize.min.js"></script>
+    <script src="http://code.angularjs.org/1.2.1/angular.js"></script>
+    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyA00aY5kUnsVOfTDxQj6-hq1rP17rkQO4Q&libraries=places"></script>
+    <script>
+    google.maps.event.addDomListener(window, 'load', initilize);
+    function initilize(){
+      var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autoComplete'));
+      /*google.maps.AddListener(autocomplete, 'plac_changed', function(){
+        var places = autocomplete.getPlace();
+        var location = "<b>Location:</b>" + places.formatted_address + "<br/>";
+        lat =  places.geometry.location.A;
+        lon = places.geometry.location.F;
+        document.getElementById('result1').innerHTML = lat;
+      });*/
+    }
+    $(function(){
+      var socket = io.connect();
+      var $users = $('#onlineuser-list');
+      var user_list = [];
+
+      socket.on('connected', function(data){
+        console.log(data);
+          for(var i = 0; i < data.length; i++){
+            if(user_list.indexOf(data[i])===-1){
+              user_list.push(data[i]);
+              $users.append('<li>'+data[i]+'</li>');
+            }
+          }
+      });
+
+      socket.on('disconnected', function(data){
+        console.log("entered");
+        for(var i = 0; i < user_list.length; i++){
+          if(user_list[i]===data[data.length-1]){
+            var index = user_list.indexOf(data[data.length-1]);
+            if (index > -1) {
+              user_list.splice(index, 1);
+            }
+            console.log(user_list);
+            $('#onlineuser-list li:contains("'+data[data.length-1]+'")').remove();
+          }
+        }
+      });
+
+      socket.on('post added', function(data){
+        $(".new").prepend('<li><div class="timeline-post" ng-show="!ifImage()"> <p style="text-align: left">'+data.post_by+ ' is travelling to '+ data.place+'</p> </div> <img class="timeline-pic" src="img/ksh1.jpg" ng-show="ifImage()"> <div class="like-comment"> <div class="response"> <button class="like like-dislike"> </button> <label for="like">'+data.no_likes+' likes'+'</label> <button class="dislike like-dislike"> </button> <label for="dislike">'+data.no_dislikes+' dislikes'+'</label> <label style="margin-left: 10em;">Add to Wishlist</label> </div> <div class="comment"> <input class="form-control comment-box" id="comment-box" placeholder="Write a comment..."> </div> <label>Posted on '+ data.created_at+' at '+ data.time+'</label> </div></li>');
+      });
+
+    });
+    </script>
+    <script src="controllers/app.js"></script>
+    <script type="text/javascript" src="js/signup.js"></script>
+  </body>
+</html>
