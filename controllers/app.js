@@ -123,7 +123,7 @@ app.controller('MainCtrl', ['$scope', '$http', '$window', 'sharedModels',functio
         .success(function () {
           console.log(data);
         });
-        $window.location.href= "http://54.205.184.44:3000/" + "/profile.html";
+        $window.location.href= "http://54.205.184.44:3000" + "/profile.html";
         console.log("chexk "+username);
         //console.log(sharedModels.data.username);
       }
@@ -205,7 +205,7 @@ app.controller('profileCtrl', ['$scope', '$http', '$window','sharedModels', func
         .success(function () {
           //console.log(data);
         });
-        $window.location.href= "http://54.205.184.44:3000/" + "/index.html";
+        $window.location.href= "http://54.205.184.44:3000" + "/index.html";
       }   //end logout
 
   $scope.goToProfile = function(){
@@ -215,7 +215,7 @@ app.controller('profileCtrl', ['$scope', '$http', '$window','sharedModels', func
         //console.log(newuser);
 
     //sharedProperties.setData(newuser);
-    $window.location.href = "http://54.205.184.44:3000/" + "/viewProfile.html";
+    $window.location.href = "http://54.205.184.44:3000" + "/viewProfile.html";
 
   }   //end goToProfile
 
@@ -426,7 +426,7 @@ app.controller('viewProfileCtrl', ['$scope', '$http', '$window', 'sharedModels',
         //console.log(newuser);
 
     //sharedProperties.setData(newuser);
-    $window.location.href = "http://54.205.184.44:3000/" + "/viewProfile.html";
+    $window.location.href = "http://54.205.184.44:3000" + "/viewProfile.html";
 
   }   //end goToProfile
 }]);
