@@ -19,9 +19,9 @@
     </div>
     <div>
       <ul class="navbar">
-        <li><a href="http://localhost:3000/profile.html">Home</a></li>
+        <li><a href="http://54.205.184.44:3000/profile.html">Home</a></li>
         <li><a class="photo-link">My Photos</a></li>
-        <li><a class="map-link" href="http://localhost:3000/map.html">My Map</a></li>
+        <li><a class="map-link" href="http://54.205.184.44:3000/map.html">My Map</a></li>
         <li><a class="search-link">Search Users</a></li>
         <!--input class="form-control search" id="name" placeholder="Search Places & People..."> type="text" ng-model="query" ng-change="toggleGuess()"-->
         <!--ul id="auto" ng-repeat="fruit in fruits | filter:query">
@@ -64,7 +64,7 @@
                 <img class="timeline-pic" src="img/ksh1.jpg" ng-show="ifImage()">
                 <div class="like-comment">
                   <div class="response" ng-repeat="like in post.likes | filter: {username : i.username}">
-                    <button type="button" class="btn btn-info Like" ng-click="like_update(post._id, post, like.status, $index); like.status">{{like.status}}<span ng-if="like.cancelling">d</span></button>
+                    <button type="button" class="btn btn-info Like" ng-click="like_update(post._id, post, like.status, $index); like.status = !like.status">{{like.status ? "Liked" : "Like"}}</button>
                     <label style="width: 10em;" for="like">{{post.no_likes}} people like this</label>
                     <!--button type="button" class="btn btn-primary" style="margin-left: 5em;">Add to Wishlist</button-->
                   </div>
